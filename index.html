@@ -6,689 +6,230 @@
 <title>Vinyl Night — April 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0a;
-    --card-bg: #141414;
-    --card-hover: #1a1a1a;
-    --text: #e8e4df;
-    --text-muted: #8a8580;
-    --accent: #e85d26;
-    --accent-glow: #ff6b3520;
-    --groove-line: #2a2520;
-    --warm: #c9a96e;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    overflow-x: hidden;
-    min-height: 100vh;
-  }
-
-  /* Grain overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 999;
-  }
-
-  .hero {
-    position: relative;
-    padding: 80px 40px 60px;
-    text-align: center;
-    overflow: hidden;
-  }
-
-  .hero::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 10%; right: 10%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--groove-line), transparent);
-  }
-
-  .season-tag {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 24px;
-    display: inline-block;
-    padding: 6px 16px;
-    border: 1px solid var(--accent);
-    border-radius: 2px;
-    animation: fadeIn 1s ease both;
-  }
-
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(48px, 8vw, 96px);
-    font-weight: 900;
-    line-height: 0.95;
-    letter-spacing: -2px;
-    margin-bottom: 16px;
-    animation: fadeIn 1s ease 0.2s both;
-  }
-
-  .hero h1 span {
-    display: block;
-    font-style: italic;
-    font-weight: 400;
-    font-size: 0.45em;
-    letter-spacing: 2px;
-    color: var(--warm);
-    margin-top: 8px;
-  }
-
-  .hero-subtitle {
-    font-size: 15px;
-    color: var(--text-muted);
-    font-weight: 300;
-    letter-spacing: 0.5px;
-    animation: fadeIn 1s ease 0.4s both;
-  }
-
-  .vinyl-count {
-    margin-top: 28px;
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    color: var(--text-muted);
-    animation: fadeIn 1s ease 0.6s both;
-  }
-  .vinyl-count strong {
-    color: var(--accent);
-    font-size: 28px;
-    vertical-align: middle;
-    margin: 0 4px;
-  }
-
-  /* Grid */
-  .grid-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 50px 30px 80px;
-  }
-
-  .album-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 20px;
-  }
-
-  .album-card {
-    background: var(--card-bg);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative;
-    animation: cardIn 0.6s ease both;
-    border: 1px solid transparent;
-  }
-
-  .album-card:hover {
-    background: var(--card-hover);
-    transform: translateY(-4px);
-    border-color: #2a2520;
-    box-shadow: 0 20px 60px -20px rgba(232, 93, 38, 0.1);
-  }
-
-  .card-inner {
-    display: flex;
-    padding: 20px;
-    gap: 18px;
-    align-items: flex-start;
-  }
-
-  .album-number {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    color: var(--text-muted);
-    min-width: 22px;
-    padding-top: 4px;
-  }
-
-  .album-info {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .album-artist {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 3px;
-  }
-
-  .album-title {
-    font-size: 13px;
-    color: var(--warm);
-    font-weight: 400;
-    margin-bottom: 8px;
-    font-style: italic;
-  }
-
-  .album-meta {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    color: var(--text-muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 14px;
-  }
-
-  .listen-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--accent);
-    text-decoration: none;
-    padding: 6px 14px;
-    border: 1px solid var(--accent);
-    border-radius: 3px;
-    transition: all 0.3s ease;
-    letter-spacing: 0.5px;
-  }
-
-  .listen-link:hover {
-    background: var(--accent);
-    color: var(--bg);
-  }
-
-  .listen-link svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  .platform-icon {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    margin-right: 2px;
-  }
-
-  .yt { background: #ff0000; }
-  .sp { background: #1db954; }
-
-  /* Genre tags */
-  .genre-tag {
-    display: inline-block;
-    font-family: 'Space Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    padding: 3px 8px;
-    border: 1px solid var(--groove-line);
-    border-radius: 2px;
-    margin-right: 4px;
-    margin-bottom: 4px;
-  }
-
-  .genres {
-    margin-bottom: 12px;
-  }
-
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 40px;
-    border-top: 1px solid var(--groove-line);
-    font-size: 13px;
-    color: var(--text-muted);
-  }
-
-  footer .next-session {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    color: var(--text);
-    margin-bottom: 8px;
-  }
-
-  /* Animations */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes cardIn {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .album-card:nth-child(1) { animation-delay: 0.1s; }
-  .album-card:nth-child(2) { animation-delay: 0.15s; }
-  .album-card:nth-child(3) { animation-delay: 0.2s; }
-  .album-card:nth-child(4) { animation-delay: 0.25s; }
-  .album-card:nth-child(5) { animation-delay: 0.3s; }
-  .album-card:nth-child(6) { animation-delay: 0.35s; }
-  .album-card:nth-child(7) { animation-delay: 0.4s; }
-  .album-card:nth-child(8) { animation-delay: 0.45s; }
-  .album-card:nth-child(9) { animation-delay: 0.5s; }
-  .album-card:nth-child(10) { animation-delay: 0.55s; }
-  .album-card:nth-child(11) { animation-delay: 0.6s; }
-  .album-card:nth-child(12) { animation-delay: 0.65s; }
-  .album-card:nth-child(13) { animation-delay: 0.7s; }
-  .album-card:nth-child(14) { animation-delay: 0.75s; }
-  .album-card:nth-child(15) { animation-delay: 0.8s; }
-
-  @media (max-width: 700px) {
-    .hero { padding: 50px 20px 40px; }
-    .grid-container { padding: 30px 16px 60px; }
-    .album-grid { grid-template-columns: 1fr; gap: 14px; }
-    .card-inner { padding: 16px; }
-  }
-
-  /* Decorative spinning record */
-  .hero-record {
-    position: absolute;
-    top: 50%;
-    right: -80px;
-    transform: translateY(-50%);
-    width: 260px;
-    height: 260px;
-    border-radius: 50%;
-    background: conic-gradient(from 0deg, #1a1a1a, #222, #1a1a1a, #252525, #1a1a1a);
-    opacity: 0.15;
-    animation: spin 20s linear infinite;
-  }
-
-  .hero-record::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--bg);
-    border: 2px solid #333;
-  }
-
-  @keyframes spin {
-    from { transform: translateY(-50%) rotate(0deg); }
-    to { transform: translateY(-50%) rotate(360deg); }
-  }
-
-  /* Separator */
-  .section-sep {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 32px;
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-  }
-
-  .section-sep::before, .section-sep::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--groove-line);
-  }
+:root{--bg:#0a0a0a;--card-bg:#141414;--card-hover:#1a1a1a;--text:#e8e4df;--text-muted:#8a8580;--accent:#e85d26;--groove-line:#2a2520;--warm:#c9a96e;--sp-green:#1db954}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;min-height:100vh}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:999}
+.hero{position:relative;padding:80px 40px 60px;text-align:center;overflow:hidden}
+.hero::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--groove-line),transparent)}
+.season-tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:24px;display:inline-block;padding:6px 16px;border:1px solid var(--accent);border-radius:2px;animation:fadeIn 1s ease both}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(48px,8vw,96px);font-weight:900;line-height:.95;letter-spacing:-2px;margin-bottom:16px;animation:fadeIn 1s ease .2s both}
+.hero h1 span{display:block;font-style:italic;font-weight:400;font-size:.45em;letter-spacing:2px;color:var(--warm);margin-top:8px}
+.hero-subtitle{font-size:15px;color:var(--text-muted);font-weight:300;letter-spacing:.5px;animation:fadeIn 1s ease .4s both}
+.vinyl-count{margin-top:28px;font-family:'Space Mono',monospace;font-size:13px;color:var(--text-muted);animation:fadeIn 1s ease .6s both}
+.vinyl-count strong{color:var(--accent);font-size:28px;vertical-align:middle;margin:0 4px}
+.grid-container{max-width:1200px;margin:0 auto;padding:50px 30px 80px}
+.album-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+.album-card{background:var(--card-bg);border-radius:8px;overflow:hidden;transition:all .4s cubic-bezier(.25,.46,.45,.94);position:relative;animation:cardIn .6s ease both;border:1px solid transparent}
+.album-card:hover{background:var(--card-hover);transform:translateY(-4px);border-color:#2a2520;box-shadow:0 20px 60px -20px rgba(232,93,38,.1)}
+.card-inner{display:flex;padding:20px;gap:18px;align-items:flex-start}
+.album-number{font-family:'Space Mono',monospace;font-size:11px;color:var(--text-muted);min-width:22px;padding-top:4px}
+.album-info{flex:1;min-width:0}
+.album-artist{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;line-height:1.2;margin-bottom:3px}
+.album-title{font-size:13px;color:var(--warm);font-weight:400;margin-bottom:8px;font-style:italic}
+.album-meta{font-family:'Space Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+.genres{margin-bottom:14px}
+.genre-tag{display:inline-block;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);padding:3px 8px;border:1px solid var(--groove-line);border-radius:2px;margin-right:4px;margin-bottom:4px}
+.listen-links{display:flex;gap:8px;flex-wrap:wrap}
+.listen-link{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;text-decoration:none;padding:6px 12px;border-radius:3px;transition:all .3s ease;letter-spacing:.3px}
+.listen-link svg{width:14px;height:14px;flex-shrink:0}
+.listen-link.yt{color:#ff4444;border:1px solid #ff444444}
+.listen-link.yt:hover{background:#ff4444;color:#fff;border-color:#ff4444}
+.listen-link.sp{color:var(--sp-green);border:1px solid #1db95444}
+.listen-link.sp:hover{background:var(--sp-green);color:#fff;border-color:var(--sp-green)}
+.hero-record{position:absolute;top:50%;right:-80px;transform:translateY(-50%);width:260px;height:260px;border-radius:50%;background:conic-gradient(from 0deg,#1a1a1a,#222,#1a1a1a,#252525,#1a1a1a);opacity:.15;animation:spin 20s linear infinite}
+.hero-record::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:var(--bg);border:2px solid #333}
+footer{text-align:center;padding:40px;border-top:1px solid var(--groove-line);font-size:13px;color:var(--text-muted)}
+footer .next-session{font-family:'Playfair Display',serif;font-size:22px;color:var(--text);margin-bottom:8px}
+.section-sep{display:flex;align-items:center;gap:16px;margin-bottom:32px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted)}
+.section-sep::before,.section-sep::after{content:'';flex:1;height:1px;background:var(--groove-line)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cardIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{from{transform:translateY(-50%) rotate(0deg)}to{transform:translateY(-50%) rotate(360deg)}}
+.album-card:nth-child(1){animation-delay:.1s}.album-card:nth-child(2){animation-delay:.15s}.album-card:nth-child(3){animation-delay:.2s}.album-card:nth-child(4){animation-delay:.25s}.album-card:nth-child(5){animation-delay:.3s}.album-card:nth-child(6){animation-delay:.35s}.album-card:nth-child(7){animation-delay:.4s}.album-card:nth-child(8){animation-delay:.45s}.album-card:nth-child(9){animation-delay:.5s}.album-card:nth-child(10){animation-delay:.55s}.album-card:nth-child(11){animation-delay:.6s}.album-card:nth-child(12){animation-delay:.65s}.album-card:nth-child(13){animation-delay:.7s}.album-card:nth-child(14){animation-delay:.75s}.album-card:nth-child(15){animation-delay:.8s}
+@media(max-width:700px){.hero{padding:50px 20px 40px}.grid-container{padding:30px 16px 60px}.album-grid{grid-template-columns:1fr;gap:14px}.card-inner{padding:16px}}
 </style>
 </head>
 <body>
-
 <header class="hero">
-  <div class="hero-record"></div>
-  <div class="season-tag">Season 01 — April 2026</div>
-  <h1>Vinyl Night<span>what we spun this month</span></h1>
-  <p class="hero-subtitle">A monthly listening session with friends, good speakers, and great records.</p>
-  <p class="vinyl-count">We played <strong>15</strong> records this April</p>
+<div class="hero-record"></div>
+<div class="season-tag">Season 01 — April 2026</div>
+<h1>Vinyl Night<span>what we spun this month</span></h1>
+<p class="hero-subtitle">A monthly listening session with friends, good speakers, and great records.</p>
+<p class="vinyl-count">We played <strong>15</strong> records this April</p>
 </header>
-
 <main class="grid-container">
-  <div class="section-sep">The Collection</div>
+<div class="section-sep">The Collection</div>
+<div class="album-grid">
 
-  <div class="album-grid">
+<!-- 01 - Jackson 5: YT + Spotify -->
+<div class="album-card"><div class="card-inner"><div class="album-number">01</div><div class="album-info">
+<div class="album-artist">Michael Jackson with The Jackson 5</div>
+<div class="album-title">I Want You Back (88' Remix 12")</div>
+<div class="album-meta">Phoenix Sound &bull; 12" Single</div>
+<div class="genres"><span class="genre-tag">Soul</span><span class="genre-tag">Motown</span><span class="genre-tag">Remix</span></div>
+<div class="listen-links">
+<a class="listen-link yt" href="https://www.youtube.com/watch?v=s3Q80mk7bxE" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+<a class="listen-link sp" href="https://open.spotify.com/track/5yvGcJhToEGylMJtSLAc4Y" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.8-.2-.8-.6-.1-.4.2-.8.6-.8 4.3-1 8-.6 11 1.2.4.2.4.7.2 1.1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.5.1-1-.1-1.1-.6-.1-.5.1-1 .6-1.1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.8.3 1.2zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1.1-.1-1.3-.7-.2-.5.1-1.1.7-1.3 4-1.2 10.7-1 14.8 1.5.5.3.6 1 .3 1.5-.3.5-.9.6-1.3.3z"/></svg>Spotify</a>
+</div></div></div></div>
 
-    <!-- 1 -->
-    <div class="album-card">
-      <div class="card-inner">
-        <div class="album-number">01</div>
-        <div class="album-info">
-          <div class="album-artist">Michael Jackson with The Jackson 5</div>
-          <div class="album-title">I Want You Back (88' Remix 12")</div>
-          <div class="album-meta">Phoenix Sound &bull; 12" Single</div>
-          <div class="genres">
-            <span class="genre-tag">Soul</span>
-            <span class="genre-tag">Motown</span>
-            <span class="genre-tag">Remix</span>
-          </div>
-          <a class="listen-link" href="https://www.youtube.com/watch?v=s3Q80mk7bxE" target="_blank" rel="noopener">
-            <span class="platform-icon yt"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Listen
-          </a>
-        </div>
-      </div>
-    </div>
+<!-- 02 - D'Angelo: YT + Spotify -->
+<div class="album-card"><div class="card-inner"><div class="album-number">02</div><div class="album-info">
+<div class="album-artist">D'Angelo</div>
+<div class="album-title">Voodoo</div>
+<div class="album-meta">Virgin Records &bull; 2000</div>
+<div class="genres"><span class="genre-tag">Neo-Soul</span><span class="genre-tag">Funk</span><span class="genre-tag">R&B</span></div>
+<div class="listen-links">
+<a class="listen-link yt" href="https://music.youtube.com/playlist?list=OLAK5uy_ljJiKkU7S96BVx6whP_B1U8e96jociXR8" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+<a class="listen-link sp" href="https://open.spotify.com/album/2lO9yuuIDgBpSJzxTh3ai8" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.8-.2-.8-.6-.1-.4.2-.8.6-.8 4.3-1 8-.6 11 1.2.4.2.4.7.2 1.1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.5.1-1-.1-1.1-.6-.1-.5.1-1 .6-1.1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.8.3 1.2zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1.1-.1-1.3-.7-.2-.5.1-1.1.7-1.3 4-1.2 10.7-1 14.8 1.5.5.3.6 1 .3 1.5-.3.5-.9.6-1.3.3z"/></svg>Spotify</a>
+</div></div></div></div>
 
-    <!-- 2 -->
-    <div class="album-card">
-      <div class="card-inner">
-        <div class="album-number">02</div>
-        <div class="album-info">
-          <div class="album-artist">D'Angelo</div>
-          <div class="album-title">Voodoo</div>
-          <div class="album-meta">Virgin Records &bull; 2000</div>
-          <div class="genres">
-            <span class="genre-tag">Neo-Soul</span>
-            <span class="genre-tag">Funk</span>
-            <span class="genre-tag">R&B</span>
-          </div>
-          <a class="listen-link" href="https://music.youtube.com/playlist?list=OLAK5uy_ljJiKkU7S96BVx6whP_B1U8e96jociXR8" target="_blank" rel="noopener">
-            <span class="platform-icon yt"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Listen
-          </a>
-        </div>
-      </div>
-    </div>
+<!-- 03 - The Square: YT only -->
+<div class="album-card"><div class="card-inner"><div class="album-number">03</div><div class="album-info">
+<div class="album-artist">The Square</div>
+<div class="album-title">うち水にRainbow</div>
+<div class="album-meta">CBS/Sony &bull; 1983</div>
+<div class="genres"><span class="genre-tag">Jazz Fusion</span><span class="genre-tag">J-Fusion</span></div>
+<div class="listen-links">
+<a class="listen-link yt" href="https://www.youtube.com/watch?v=mBap1UFAVoY" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+</div></div></div></div>
 
-    <!-- 3 -->
-    <div class="album-card">
-      <div class="card-inner">
-        <div class="album-number">03</div>
-        <div class="album-info">
-          <div class="album-artist">The Square</div>
-          <div class="album-title">うち水にRainbow</div>
-          <div class="album-meta">CBS/Sony &bull; 1983</div>
-          <div class="genres">
-            <span class="genre-tag">Jazz Fusion</span>
-            <span class="genre-tag">J-Fusion</span>
-          </div>
-          <a class="listen-link" href="https://www.youtube.com/watch?v=mBap1UFAVoY" target="_blank" rel="noopener">
-            <span class="platform-icon yt"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Listen
-          </a>
-        </div>
-      </div>
-    </div>
+<!-- 04 - Mongo: YT only -->
+<div class="album-card"><div class="card-inner"><div class="album-number">04</div><div class="album-info">
+<div class="album-artist">Mongo Santamaria</div>
+<div class="album-title">A La Carte</div>
+<div class="album-meta">Vaya Records &bull; 1978</div>
+<div class="genres"><span class="genre-tag">Latin Jazz</span><span class="genre-tag">Funk</span><span class="genre-tag">Salsa</span></div>
+<div class="listen-links">
+<a class="listen-link yt" href="https://www.youtube.com/watch?v=1eSCKuGM8OM" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+</div></div></div></div>
 
-    <!-- 4 -->
-    <div class="album-card">
-      <div class="card-inner">
-        <div class="album-number">04</div>
-        <div class="album-info">
-          <div class="album-artist">Mongo Santamaria</div>
-          <div class="album-title">A La Carte</div>
-          <div class="album-meta">Vaya Records &bull; 1978</div>
-          <div class="genres">
-            <span class="genre-tag">Latin Jazz</span>
-            <span class="genre-tag">Funk</span>
-            <span class="genre-tag">Salsa</span>
-          </div>
-          <a class="listen-link" href="https://open.spotify.com/artist/1m9AlQJ4mMaHJpBSyfAMjZ" target="_blank" rel="noopener">
-            <span class="platform-icon sp"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Spotify
-          </a>
-        </div>
-      </div>
-    </div>
+<!-- 05 - Solange: YT + Spotify -->
+<div class="album-card"><div class="card-inner"><div class="album-number">05</div><div class="album-info">
+<div class="album-artist">Solange</div>
+<div class="album-title">A Seat at the Table</div>
+<div class="album-meta">Saint Records / Columbia &bull; 2016</div>
+<div class="genres"><span class="genre-tag">Neo-Soul</span><span class="genre-tag">R&B</span><span class="genre-tag">Funk</span></div>
+<div class="listen-links">
+<a class="listen-link yt" href="https://www.youtube.com/playlist?list=PLSAIIKVY-KuQIjwd3VOwGQibFdrQ8mBee" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+<a class="listen-link sp" href="https://open.spotify.com/album/3Yko2SxDk4hc6fncIBQlcM" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.8-.2-.8-.6-.1-.4.2-.8.6-.8 4.3-1 8-.6 11 1.2.4.2.4.7.2 1.1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.5.1-1-.1-1.1-.6-.1-.5.1-1 .6-1.1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.8.3 1.2zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1.1-.1-1.3-.7-.2-.5.1-1.1.7-1.3 4-1.2 10.7-1 14.8 1.5.5.3.6 1 .3 1.5-.3.5-.9.6-1.3.3z"/></svg>Spotify</a>
+</div></div></div></div>
 
-    <!-- 5 -->
-    <div class="album-card">
-      <div class="card-inner">
-        <div class="album-number">05</div>
-        <div class="album-info">
-          <div class="album-artist">Solange</div>
-          <div class="album-title">A Seat at the Table</div>
-          <div class="album-meta">Saint Records / Columbia &bull; 2016</div>
-          <div class="genres">
-            <span class="genre-tag">Neo-Soul</span>
-            <span class="genre-tag">R&B</span>
-            <span class="genre-tag">Funk</span>
-          </div>
-          <a class="listen-link" href="https://www.youtube.com/playlist?list=PLSAIIKVY-KuQIjwd3VOwGQibFdrQ8mBee" target="_blank" rel="noopener">
-            <span class="platform-icon yt"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Listen
-          </a>
-        </div>
-      </div>
-    </div>
+<!-- 06 - Idris Muhammad: YT + Spotify -->
+<div class="album-card"><div class="card-inner"><div class="album-number">06</div><div class="album-info">
+<div class="album-artist">Idris Muhammad</div>
+<div class="album-title">Power of Soul</div>
+<div class="album-meta">Kudu / CTI Records &bull; 1974</div>
+<div class="genres"><span class="genre-tag">Jazz-Funk</span><span class="genre-tag">Soul Jazz</span></div>
+<div class="listen-links">
+<a class="listen-link yt" href="https://www.youtube.com/watch?v=ZCVL5QqXS-0" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+<a class="listen-link sp" href="https://open.spotify.com/album/4blKLLF57DrHhUyxtaziZX" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.8-.2-.8-.6-.1-.4.2-.8.6-.8 4.3-1 8-.6 11 1.2.4.2.4.7.2 1.1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.5.1-1-.1-1.1-.6-.1-.5.1-1 .6-1.1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.8.3 1.2zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1.1-.1-1.3-.7-.2-.5.1-1.1.7-1.3 4-1.2 10.7-1 14.8 1.5.5.3.6 1 .3 1.5-.3.5-.9.6-1.3.3z"/></svg>Spotify</a>
+</div></div></div></div>
 
-    <!-- 6 -->
-    <div class="album-card">
-      <div class="card-inner">
-        <div class="album-number">06</div>
-        <div class="album-info">
-          <div class="album-artist">Idris Muhammad</div>
-          <div class="album-title">Power of Soul</div>
-          <div class="album-meta">Kudu / CTI Records &bull; 1974</div>
-          <div class="genres">
-            <span class="genre-tag">Jazz-Funk</span>
-            <span class="genre-tag">Soul Jazz</span>
-          </div>
-          <a class="listen-link" href="https://www.youtube.com/watch?v=ZCVL5QqXS-0" target="_blank" rel="noopener">
-            <span class="platform-icon yt"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Listen
-          </a>
-        </div>
-      </div>
-    </div>
+<!-- 07 - Alfa Mist: YT + Spotify -->
+<div class="album-card"><div class="card-inner"><div class="album-number">07</div><div class="album-info">
+<div class="album-artist">Alfa Mist</div>
+<div class="album-title">Antiphon</div>
+<div class="album-meta">Self-Released &bull; 2017</div>
+<div class="genres"><span class="genre-tag">Jazz</span><span class="genre-tag">Hip-Hop</span><span class="genre-tag">Neo-Soul</span></div>
+<div class="listen-links">
+<a class="listen-link yt" href="https://www.youtube.com/watch?v=J2C64RmQ-5M" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+<a class="listen-link sp" href="https://open.spotify.com/album/3joOXpEsCgg8oS1Tba7neT" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.8-.2-.8-.6-.1-.4.2-.8.6-.8 4.3-1 8-.6 11 1.2.4.2.4.7.2 1.1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.5.1-1-.1-1.1-.6-.1-.5.1-1 .6-1.1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.8.3 1.2zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1.1-.1-1.3-.7-.2-.5.1-1.1.7-1.3 4-1.2 10.7-1 14.8 1.5.5.3.6 1 .3 1.5-.3.5-.9.6-1.3.3z"/></svg>Spotify</a>
+</div></div></div></div>
 
-    <!-- 7 -->
-    <div class="album-card">
-      <div class="card-inner">
-        <div class="album-number">07</div>
-        <div class="album-info">
-          <div class="album-artist">Alfa Mist</div>
-          <div class="album-title">Antiphon</div>
-          <div class="album-meta">Self-Released &bull; 2017</div>
-          <div class="genres">
-            <span class="genre-tag">Jazz</span>
-            <span class="genre-tag">Hip-Hop</span>
-            <span class="genre-tag">Neo-Soul</span>
-          </div>
-          <a class="listen-link" href="https://www.youtube.com/watch?v=J2C64RmQ-5M" target="_blank" rel="noopener">
-            <span class="platform-icon yt"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Listen
-          </a>
-        </div>
-      </div>
-    </div>
+<!-- 08 - Sembello: YT + Spotify -->
+<div class="album-card"><div class="card-inner"><div class="album-number">08</div><div class="album-info">
+<div class="album-artist">Michael Sembello</div>
+<div class="album-title">Maniac (Remixed Version)</div>
+<div class="album-meta">Casablanca Records &bull; 12" Single &bull; 1983</div>
+<div class="genres"><span class="genre-tag">Synth-Pop</span><span class="genre-tag">Soundtrack</span></div>
+<div class="listen-links">
+<a class="listen-link yt" href="https://www.youtube.com/watch?v=6GCNUeTFSbA" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+<a class="listen-link sp" href="https://open.spotify.com/track/0nrRP2bk19rLc0orkWPQk2" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.8-.2-.8-.6-.1-.4.2-.8.6-.8 4.3-1 8-.6 11 1.2.4.2.4.7.2 1.1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.5.1-1-.1-1.1-.6-.1-.5.1-1 .6-1.1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.8.3 1.2zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1.1-.1-1.3-.7-.2-.5.1-1.1.7-1.3 4-1.2 10.7-1 14.8 1.5.5.3.6 1 .3 1.5-.3.5-.9.6-1.3.3z"/></svg>Spotify</a>
+</div></div></div></div>
 
-    <!-- 8 -->
-    <div class="album-card">
-      <div class="card-inner">
-        <div class="album-number">08</div>
-        <div class="album-info">
-          <div class="album-artist">Michael Sembello</div>
-          <div class="album-title">Maniac (Remixed Version)</div>
-          <div class="album-meta">Casablanca Records &bull; 12" Single &bull; 1983</div>
-          <div class="genres">
-            <span class="genre-tag">Synth-Pop</span>
-            <span class="genre-tag">Soundtrack</span>
-          </div>
-          <a class="listen-link" href="https://www.youtube.com/watch?v=6GCNUeTFSbA" target="_blank" rel="noopener">
-            <span class="platform-icon yt"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Listen
-          </a>
-        </div>
-      </div>
-    </div>
+<!-- 09 - Rufus & Chaka Khan: YT + Spotify -->
+<div class="album-card"><div class="card-inner"><div class="album-number">09</div><div class="album-info">
+<div class="album-artist">Rufus &amp; Chaka Khan</div>
+<div class="album-title">Ain't Nobody</div>
+<div class="album-meta">Warner Bros. &bull; 12" Single &bull; 1983</div>
+<div class="genres"><span class="genre-tag">Funk</span><span class="genre-tag">Boogie</span><span class="genre-tag">R&B</span></div>
+<div class="listen-links">
+<a class="listen-link yt" href="https://www.youtube.com/watch?v=x0Dv6pHGbRQ" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+<a class="listen-link sp" href="https://open.spotify.com/track/1pFMu4VvRCYnmGVLbMfckO" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.8-.2-.8-.6-.1-.4.2-.8.6-.8 4.3-1 8-.6 11 1.2.4.2.4.7.2 1.1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.5.1-1-.1-1.1-.6-.1-.5.1-1 .6-1.1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.8.3 1.2zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1.1-.1-1.3-.7-.2-.5.1-1.1.7-1.3 4-1.2 10.7-1 14.8 1.5.5.3.6 1 .3 1.5-.3.5-.9.6-1.3.3z"/></svg>Spotify</a>
+</div></div></div></div>
 
-    <!-- 9 -->
-    <div class="album-card">
-      <div class="card-inner">
-        <div class="album-number">09</div>
-        <div class="album-info">
-          <div class="album-artist">Rufus & Chaka Khan</div>
-          <div class="album-title">Ain't Nobody</div>
-          <div class="album-meta">Warner Bros. &bull; 12" Single &bull; 1983</div>
-          <div class="genres">
-            <span class="genre-tag">Funk</span>
-            <span class="genre-tag">Boogie</span>
-            <span class="genre-tag">R&B</span>
-          </div>
-          <a class="listen-link" href="https://www.youtube.com/watch?v=x0Dv6pHGbRQ" target="_blank" rel="noopener">
-            <span class="platform-icon yt"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Listen
-          </a>
-        </div>
-      </div>
-    </div>
+<!-- 10 - ELO: YT + Spotify -->
+<div class="album-card"><div class="card-inner"><div class="album-number">10</div><div class="album-info">
+<div class="album-artist">Electric Light Orchestra</div>
+<div class="album-title">Out of the Blue</div>
+<div class="album-meta">Jet / United Artists &bull; 1977</div>
+<div class="genres"><span class="genre-tag">Prog Rock</span><span class="genre-tag">Pop Rock</span></div>
+<div class="listen-links">
+<a class="listen-link yt" href="https://www.youtube.com/watch?v=OjBFp2wlERo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+<a class="listen-link sp" href="https://open.spotify.com/album/61mHFxiv3wSIqPAFJiFqDT" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.8-.2-.8-.6-.1-.4.2-.8.6-.8 4.3-1 8-.6 11 1.2.4.2.4.7.2 1.1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.5.1-1-.1-1.1-.6-.1-.5.1-1 .6-1.1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.8.3 1.2zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1.1-.1-1.3-.7-.2-.5.1-1.1.7-1.3 4-1.2 10.7-1 14.8 1.5.5.3.6 1 .3 1.5-.3.5-.9.6-1.3.3z"/></svg>Spotify</a>
+</div></div></div></div>
 
-    <!-- 10 -->
-    <div class="album-card">
-      <div class="card-inner">
-        <div class="album-number">10</div>
-        <div class="album-info">
-          <div class="album-artist">Electric Light Orchestra</div>
-          <div class="album-title">Out of the Blue</div>
-          <div class="album-meta">Jet / United Artists &bull; 1977</div>
-          <div class="genres">
-            <span class="genre-tag">Prog Rock</span>
-            <span class="genre-tag">Pop Rock</span>
-          </div>
-          <a class="listen-link" href="https://www.youtube.com/watch?v=OjBFp2wlERo" target="_blank" rel="noopener">
-            <span class="platform-icon yt"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Listen
-          </a>
-        </div>
-      </div>
-    </div>
+<!-- 11 - Bob Marley: YT + Spotify -->
+<div class="album-card"><div class="card-inner"><div class="album-number">11</div><div class="album-info">
+<div class="album-artist">Bob Marley &amp; The Wailers</div>
+<div class="album-title">Uprising</div>
+<div class="album-meta">Island / Tuff Gong &bull; 1980</div>
+<div class="genres"><span class="genre-tag">Reggae</span><span class="genre-tag">Roots</span></div>
+<div class="listen-links">
+<a class="listen-link yt" href="https://www.youtube.com/watch?v=sE_JoS3W-x4" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+<a class="listen-link sp" href="https://open.spotify.com/album/321q9p7PELvzcFAWxml7VX" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.8-.2-.8-.6-.1-.4.2-.8.6-.8 4.3-1 8-.6 11 1.2.4.2.4.7.2 1.1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.5.1-1-.1-1.1-.6-.1-.5.1-1 .6-1.1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.8.3 1.2zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1.1-.1-1.3-.7-.2-.5.1-1.1.7-1.3 4-1.2 10.7-1 14.8 1.5.5.3.6 1 .3 1.5-.3.5-.9.6-1.3.3z"/></svg>Spotify</a>
+</div></div></div></div>
 
-    <!-- 11 -->
-    <div class="album-card">
-      <div class="card-inner">
-        <div class="album-number">11</div>
-        <div class="album-info">
-          <div class="album-artist">Bob Marley & The Wailers</div>
-          <div class="album-title">Uprising</div>
-          <div class="album-meta">Island / Tuff Gong &bull; 1980</div>
-          <div class="genres">
-            <span class="genre-tag">Reggae</span>
-            <span class="genre-tag">Roots</span>
-          </div>
-          <a class="listen-link" href="https://www.youtube.com/watch?v=sE_JoS3W-x4" target="_blank" rel="noopener">
-            <span class="platform-icon yt"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Listen
-          </a>
-        </div>
-      </div>
-    </div>
+<!-- 12 - Air: YT + Spotify -->
+<div class="album-card"><div class="card-inner"><div class="album-number">12</div><div class="album-info">
+<div class="album-artist">Air</div>
+<div class="album-title">Moon Safari</div>
+<div class="album-meta">Virgin Records &bull; 1998</div>
+<div class="genres"><span class="genre-tag">Downtempo</span><span class="genre-tag">Electronic</span><span class="genre-tag">Dream Pop</span></div>
+<div class="listen-links">
+<a class="listen-link yt" href="https://www.youtube.com/watch?v=99myH1FNsZo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+<a class="listen-link sp" href="https://open.spotify.com/album/1jeMiSeSnNS0Oys375FegX" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.8-.2-.8-.6-.1-.4.2-.8.6-.8 4.3-1 8-.6 11 1.2.4.2.4.7.2 1.1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.5.1-1-.1-1.1-.6-.1-.5.1-1 .6-1.1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.8.3 1.2zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1.1-.1-1.3-.7-.2-.5.1-1.1.7-1.3 4-1.2 10.7-1 14.8 1.5.5.3.6 1 .3 1.5-.3.5-.9.6-1.3.3z"/></svg>Spotify</a>
+</div></div></div></div>
 
-    <!-- 12 -->
-    <div class="album-card">
-      <div class="card-inner">
-        <div class="album-number">12</div>
-        <div class="album-info">
-          <div class="album-artist">Air</div>
-          <div class="album-title">Moon Safari</div>
-          <div class="album-meta">Virgin Records &bull; 1998</div>
-          <div class="genres">
-            <span class="genre-tag">Downtempo</span>
-            <span class="genre-tag">Electronic</span>
-            <span class="genre-tag">Dream Pop</span>
-          </div>
-          <a class="listen-link" href="https://www.youtube.com/watch?v=99myH1FNsZo" target="_blank" rel="noopener">
-            <span class="platform-icon yt"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Listen
-          </a>
-        </div>
-      </div>
-    </div>
+<!-- 13 - Cymande: YT + Spotify -->
+<div class="album-card"><div class="card-inner"><div class="album-number">13</div><div class="album-info">
+<div class="album-artist">Cymande</div>
+<div class="album-title">Cymande</div>
+<div class="album-meta">Janus Records &bull; 1972</div>
+<div class="genres"><span class="genre-tag">Funk</span><span class="genre-tag">Afro-Rock</span><span class="genre-tag">Soul</span></div>
+<div class="listen-links">
+<a class="listen-link yt" href="https://www.youtube.com/playlist?list=PLC7kgcJSgmxqwc7tu6YaimcOx2j0Dhs8H" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+<a class="listen-link sp" href="https://open.spotify.com/album/06vHyS1KFTcMIyxKzuRAbK" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.8-.2-.8-.6-.1-.4.2-.8.6-.8 4.3-1 8-.6 11 1.2.4.2.4.7.2 1.1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.5.1-1-.1-1.1-.6-.1-.5.1-1 .6-1.1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.8.3 1.2zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1.1-.1-1.3-.7-.2-.5.1-1.1.7-1.3 4-1.2 10.7-1 14.8 1.5.5.3.6 1 .3 1.5-.3.5-.9.6-1.3.3z"/></svg>Spotify</a>
+</div></div></div></div>
 
-    <!-- 13 -->
-    <div class="album-card">
-      <div class="card-inner">
-        <div class="album-number">13</div>
-        <div class="album-info">
-          <div class="album-artist">Cymande</div>
-          <div class="album-title">Cymande</div>
-          <div class="album-meta">Janus Records &bull; 1972</div>
-          <div class="genres">
-            <span class="genre-tag">Funk</span>
-            <span class="genre-tag">Afro-Rock</span>
-            <span class="genre-tag">Soul</span>
-          </div>
-          <a class="listen-link" href="https://www.youtube.com/playlist?list=PLC7kgcJSgmxqwc7tu6YaimcOx2j0Dhs8H" target="_blank" rel="noopener">
-            <span class="platform-icon yt"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Listen
-          </a>
-        </div>
-      </div>
-    </div>
+<!-- 14 - Abstract Orchestra: YT + Spotify -->
+<div class="album-card"><div class="card-inner"><div class="album-number">14</div><div class="album-info">
+<div class="album-artist">Abstract Orchestra</div>
+<div class="album-title">Madvillain Vol. 1</div>
+<div class="album-meta">ATA Records &bull; 2018</div>
+<div class="genres"><span class="genre-tag">Jazz</span><span class="genre-tag">Hip-Hop</span><span class="genre-tag">Big Band</span></div>
+<div class="listen-links">
+<a class="listen-link yt" href="https://www.youtube.com/watch?v=UKxYNY75QOg" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+<a class="listen-link sp" href="https://open.spotify.com/album/7KGf2ieIMFomTv9v9t1Anr" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.8-.2-.8-.6-.1-.4.2-.8.6-.8 4.3-1 8-.6 11 1.2.4.2.4.7.2 1.1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.5.1-1-.1-1.1-.6-.1-.5.1-1 .6-1.1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.8.3 1.2zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1.1-.1-1.3-.7-.2-.5.1-1.1.7-1.3 4-1.2 10.7-1 14.8 1.5.5.3.6 1 .3 1.5-.3.5-.9.6-1.3.3z"/></svg>Spotify</a>
+</div></div></div></div>
 
-    <!-- 14 -->
-    <div class="album-card">
-      <div class="card-inner">
-        <div class="album-number">14</div>
-        <div class="album-info">
-          <div class="album-artist">Abstract Orchestra</div>
-          <div class="album-title">Madvillain Vol. 1</div>
-          <div class="album-meta">ATA Records &bull; 2018</div>
-          <div class="genres">
-            <span class="genre-tag">Jazz</span>
-            <span class="genre-tag">Hip-Hop</span>
-            <span class="genre-tag">Big Band</span>
-          </div>
-          <a class="listen-link" href="https://www.youtube.com/watch?v=UKxYNY75QOg" target="_blank" rel="noopener">
-            <span class="platform-icon yt"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Listen
-          </a>
-        </div>
-      </div>
-    </div>
+<!-- 15 - Cowboy Bebop: YT + Spotify -->
+<div class="album-card"><div class="card-inner"><div class="album-number">15</div><div class="album-info">
+<div class="album-artist">Seatbelts (Yoko Kanno)</div>
+<div class="album-title">Cowboy Bebop O.S.T. 1</div>
+<div class="album-meta">Victor Entertainment &bull; 1998</div>
+<div class="genres"><span class="genre-tag">Jazz</span><span class="genre-tag">Soundtrack</span><span class="genre-tag">Bebop</span></div>
+<div class="listen-links">
+<a class="listen-link yt" href="https://www.youtube.com/watch?v=Lud7yRKd4Og" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+<a class="listen-link sp" href="https://open.spotify.com/album/1XoE7ZirQ3gjxq8HIzTJU9" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.8-.2-.8-.6-.1-.4.2-.8.6-.8 4.3-1 8-.6 11 1.2.4.2.4.7.2 1.1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.5.1-1-.1-1.1-.6-.1-.5.1-1 .6-1.1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.8.3 1.2zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1.1-.1-1.3-.7-.2-.5.1-1.1.7-1.3 4-1.2 10.7-1 14.8 1.5.5.3.6 1 .3 1.5-.3.5-.9.6-1.3.3z"/></svg>Spotify</a>
+</div></div></div></div>
 
-    <!-- 15 -->
-    <div class="album-card">
-      <div class="card-inner">
-        <div class="album-number">15</div>
-        <div class="album-info">
-          <div class="album-artist">Seatbelts (Yoko Kanno)</div>
-          <div class="album-title">Cowboy Bebop O.S.T. 1</div>
-          <div class="album-meta">Victor Entertainment &bull; 1998</div>
-          <div class="genres">
-            <span class="genre-tag">Jazz</span>
-            <span class="genre-tag">Soundtrack</span>
-            <span class="genre-tag">Bebop</span>
-          </div>
-          <a class="listen-link" href="https://www.youtube.com/watch?v=Lud7yRKd4Og" target="_blank" rel="noopener">
-            <span class="platform-icon yt"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Listen
-          </a>
-        </div>
-      </div>
-    </div>
-
-  </div>
+</div>
 </main>
-
 <footer>
-  <div class="next-session">May session coming soon.</div>
-  <p>Vinyl Night &mdash; Dubai, 2026</p>
+<div class="next-session">May session coming soon.</div>
+<p>Vinyl Night &mdash; Dubai, 2026</p>
 </footer>
-
 </body>
 </html>
